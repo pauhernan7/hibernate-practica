@@ -1,11 +1,11 @@
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.iticbcn.pau_hernandez.model.Classificacio" table="Classificacio">
+    <class name="com.iticbcn.pau_hernandez.Model.Classificacio" table="Classificacio">
         <id name="id_classificacio" column="id_classificacio">
             <generator class="identity"/>
         </id>
-        <many-to-one name="equip" column="id_equip" class="com.iticbcn.pau_hernandez.model.Equip"/>
+        <many-to-one name="equip" column="id_equip" class="com.iticbcn.pau_hernandez.Model.Equip"/>
         <property name="punts" column="punts"/>
         <property name="partits_jugats" column="partits_jugats"/>
         <property name="victories" column="victories"/>

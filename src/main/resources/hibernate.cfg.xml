@@ -44,10 +44,9 @@
         <!-- Mapeo DENTRO DE LA CLASE -->
         <mapping class="com.iticbcn.hibernate.Model.Jugador"/>
         <mapping class="com.iticbcn.hibernate.Model.Equip"/>
-        <mapping class="com.iticbcn.hibernate.Model.Classificacio"/>
         <mapping class="com.iticbcn.hibernate.Model.Lliga"/>
+        <mapping class="com.iticbcn.hibernate.Model.Classificacio"/>
         <mapping resource="Classificacio.hbm.xml"/>
 
-      
     </session-factory>
 </hibernate-configuration>
