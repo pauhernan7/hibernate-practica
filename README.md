@@ -68,5 +68,21 @@ El programa ofereix les següents funcionalitats a través d'un menú interactiu
 
 ## Exemples d'execució amb la clase Jugador:
 
+![](/fotos/menuprin.png)
+
+![](/fotos/creaciojugador.png)
+
+![](/fotos/consultar.png)
+
+![](/fotos/modificar.png)
+
+![](/fotos/eliminar.png)
+
+![](/fotos/mostrartots.png)
+
+![](/fotos/count.png)
+
+
+
 
 
