@@ -1,51 +1,28 @@
 package com.iticbcn.pau_hernandez;
 
-import java.util.List;
 import java.util.Scanner;
 
 import org.hibernate.SessionFactory;
 
 import com.iticbcn.pau_hernandez.Dao.ClassificacioDAO;
 import com.iticbcn.pau_hernandez.Dao.EquipDAO;
+import com.iticbcn.pau_hernandez.Dao.JugadorDAO;
 import com.iticbcn.pau_hernandez.Dao.LligaDAO;
+import com.iticbcn.pau_hernandez.Model.Classificacio;
 import com.iticbcn.pau_hernandez.Model.Equip;
+import com.iticbcn.pau_hernandez.Model.Jugador;
 import com.iticbcn.pau_hernandez.Model.Lliga;
 
 public class Main {
 
     public static void mostrarOpcions() {
-        System.out.println("\n===== MENU =====");
-        System.out.println("1. Crear Lliga");
-        System.out.println("2. Mostrar totes les lligues");
-        System.out.println("3. Crear Equip");
-        System.out.println("4. Mostrar tots els equips");
-        System.out.println("5. Crear Classificació");
-        System.out.println("6. Mostrar totes les classificacions");
-        System.out.println("7. Sortir");
+        System.out.println("\n===== MENU PRINCIPAL =====");
+        System.out.println("1. Gestionar Lliga");
+        System.out.println("2. Gestionar Jugadors");
+        System.out.println("3. Gestionar Classificació");
+        System.out.println("4. Gestionar Equips");
+        System.out.println("5. Sortir");
         System.out.print("Selecciona una opció: ");
-    }
-
-    public static int obtenirOpcio(Scanner scanner) {
-        while (true) {
-            try {
-                String entrada = scanner.nextLine().trim(); // Elimina espacios en blanco
-                if (entrada.isEmpty()) { // Verifica si la entrada está vacía
-                    System.out.println("Format erroni! No pots deixar-ho en blanc. Torna a intentar-ho.");
-                    mostrarOpcions();
-                    continue;
-                }
-                int opcio = Integer.parseInt(entrada); // Convierte la entrada en número
-                if (opcio < 1 || opcio > 7) {
-                    System.out.println("Opció no vàlida. Tria un número entre 1 i 7.");
-                    mostrarOpcions();
-                    continue;
-                }
-                return opcio; // Retorna la opción válida
-            } catch (NumberFormatException e) {
-                System.out.println("Format erroni! Introdueix un número del 1 al 7.");
-                mostrarOpcions();
-            }
-        }
     }
 
     public static void main(String[] args) {
@@ -53,83 +30,317 @@ public class Main {
         EquipDAO equipDAO = new EquipDAO(sessionFactory);
         LligaDAO lligaDAO = new LligaDAO(sessionFactory);
         ClassificacioDAO classificacioDAO = new ClassificacioDAO(sessionFactory);
+        JugadorDAO jugadorDAO = new JugadorDAO(sessionFactory);
         Scanner scanner = new Scanner(System.in);
 
         boolean sortir = false;
 
         while (!sortir) {
             mostrarOpcions();
-            int opcio = obtenirOpcio(scanner); // Obtenemos la opción validada
+            int opcio = scanner.nextInt();
+            scanner.nextLine();  
 
             switch (opcio) {
                 case 1:
-                    System.out.print("Nom de la lliga: ");
-                    String nomLliga = scanner.nextLine().trim();
-                    System.out.print("Temporada: ");
-                    String temporada = scanner.nextLine().trim();
-                    if (nomLliga.isEmpty() || temporada.isEmpty()) {
-                        System.out.println("Error: No pots deixar els camps buits.");
-                        break;
-                    }
-                    Lliga lliga = new Lliga();
-                    lliga.setNom_lliga(nomLliga);
-                    lliga.setTemporada(temporada);
-                    lligaDAO.crearLliga(lliga);
-                    System.out.println("Lliga creada amb èxit!");
+                    gestionarLliga(scanner, lligaDAO);
                     break;
-
                 case 2:
-                    List<Lliga> lligues = lligaDAO.obtenirTotesLesLligues();
-                    if (lligues.isEmpty()) {
-                        System.out.println("No hi ha lligues registrades.");
-                    } else {
-                        System.out.println("Llista de lligues:");
-                        for (Lliga l : lligues) {
-                            System.out.println(l.getNom_lliga() + " - " + l.getTemporada());
-                        }
-                    }
+                    gestionarJugador(scanner, jugadorDAO);
                     break;
-
                 case 3:
-                    System.out.print("Nom de l'equip: ");
-                    String nomEquip = scanner.nextLine().trim();
-                    System.out.print("Ciutat de l'equip: ");
-                    String ciutat = scanner.nextLine().trim();
-                    if (nomEquip.isEmpty() || ciutat.isEmpty()) {
-                        System.out.println("Error: No pots deixar els camps buits.");
-                        break;
-                    }
-                    Equip equip = new Equip();
-                    equip.setNom_equip(nomEquip);
-                    equip.setCiutat(ciutat);
-                    equipDAO.crearEquip(equip);
-                    System.out.println("Equip creat amb èxit!");
+                    gestionarClassificacio(scanner, classificacioDAO);
                     break;
-
-                    //falta hacer casos 4,5,6 i arreglar creacion de equip
-
-                case 7:
-                    sortir = true;
-                    System.out.println("Sortint de l'aplicació. Fins aviat!");
+                case 4:
+                    gestionarEquip(scanner, equipDAO, lligaDAO);
                     break;
-            }
-
-            // Preguntar si el usuario quiere seguir
-            if (!sortir) {
-                System.out.print("\nVols fer una altra operació? (s/n): ");
-                String resposta = scanner.nextLine().trim().toLowerCase();
-                while (!resposta.equals("s") && !resposta.equals("n")) {
-                    System.out.print("Format erroni! Escriu 's' per sí o 'n' per no: ");
-                    resposta = scanner.nextLine().trim().toLowerCase();
-                }
-                if (resposta.equals("n")) {
+                case 5:
                     sortir = true;
-                    System.out.println("Sortint de l'aplicació. Fins aviat!");
-                }
+                    System.out.println("👋 Sortint de l'aplicació. Fins aviat!");
+                    break;
+                default:
+                    System.out.println("⚠ Opció no vàlida.");
             }
         }
 
         scanner.close();
         sessionFactory.close();
     }
+
+    // 📌 Submenú per gestionar Lliga
+    public static void gestionarLliga(Scanner scanner, LligaDAO lligaDAO) {
+        System.out.println("\n===== GESTIONAR LLIGA =====");
+        System.out.println("1. Crear Lliga");
+        System.out.println("2. Consultar Lliga per ID");
+        System.out.println("3. Actualitzar Lliga per ID");
+        System.out.println("4. Eliminar Lliga per ID");
+        System.out.print("Selecciona una opció: ");
+        int opcio = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcio) {
+            case 1:
+                System.out.print("Nom de la lliga: ");
+                String nomLliga = scanner.nextLine();
+                System.out.print("Temporada: ");
+                String temporada = scanner.nextLine();
+                Lliga lliga = new Lliga();
+                lliga.setNom_lliga(nomLliga);
+                lliga.setTemporada(temporada);
+                lligaDAO.crearLliga(lliga);
+                System.out.println("✅ Lliga creada amb èxit!");
+                break;
+
+            case 2:
+                System.out.print("Introdueix l'ID de la lliga a consultar: ");
+                int idConsulta = scanner.nextInt();
+                scanner.nextLine();
+                Lliga l = lligaDAO.obtenirLliga(idConsulta);
+                if (l != null) {
+                    System.out.println("🏆 " + l.getNom_lliga() + " - " + l.getTemporada());
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap lliga amb aquest ID.");
+                }
+                break;
+
+            case 3:
+                System.out.print("Introdueix l'ID de la lliga a actualitzar: ");
+                int idUpdate = scanner.nextInt();
+                scanner.nextLine();
+                Lliga lligaUpdate = lligaDAO.obtenirLliga(idUpdate);
+                if (lligaUpdate != null) {
+                    System.out.print("Nou nom de la lliga: ");
+                    lligaUpdate.setNom_lliga(scanner.nextLine());
+                    System.out.print("Nova temporada: ");
+                    lligaUpdate.setTemporada(scanner.nextLine());
+                    lligaDAO.actualitzarLliga(lligaUpdate);
+                    System.out.println("✅ Lliga actualitzada amb èxit!");
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap lliga amb aquest ID.");
+                }
+                break;
+
+            case 4:
+                System.out.print("Introdueix l'ID de la lliga a eliminar: ");
+                int idDelete = scanner.nextInt();
+                scanner.nextLine();
+                lligaDAO.eliminarLliga(idDelete);
+                System.out.println("✅ Lliga eliminada amb èxit!");
+                break;
+        }
+    }
+
+    // 📌 Submenú per gestionar Jugador
+    public static void gestionarJugador(Scanner scanner, JugadorDAO jugadorDAO) {
+        System.out.println("\n===== GESTIONAR JUGADOR =====");
+        System.out.println("1. Crear Jugador");
+        System.out.println("2. Consultar Jugador per ID");
+        System.out.println("3. Actualitzar Jugador per ID");
+        System.out.println("4. Eliminar Jugador per ID");
+        System.out.print("Selecciona una opció: ");
+        int opcio = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcio) {
+            case 1:
+                System.out.print("Nom del jugador: ");
+                String nomJugador = scanner.nextLine();
+                System.out.print("Cognoms: ");
+                String cognoms = scanner.nextLine();
+                Jugador jugador = new Jugador();
+                jugador.setNom(nomJugador);
+                jugador.setCognoms(cognoms);
+                jugadorDAO.crearJugador(jugador);
+                System.out.println("✅ Jugador creat amb èxit!");
+                break;
+
+            case 2:
+                System.out.print("Introdueix l'ID del jugador a consultar: ");
+                int idConsulta = scanner.nextInt();
+                scanner.nextLine();
+                Jugador j = jugadorDAO.obtenirJugador(idConsulta);
+                if (j != null) {
+                    System.out.println("⚽ " + j.getNom() + " " + j.getCognoms());
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap jugador amb aquest ID.");
+                }
+                break;
+
+            case 3:
+                System.out.print("Introdueix l'ID del jugador a actualitzar: ");
+                int idUpdate = scanner.nextInt();
+                scanner.nextLine();
+                Jugador jugadorUpdate = jugadorDAO.obtenirJugador(idUpdate);
+                if (jugadorUpdate != null) {
+                    System.out.print("Nou nom del jugador: ");
+                    jugadorUpdate.setNom(scanner.nextLine());
+                    System.out.print("Noves cognoms del jugador: ");
+                    jugadorUpdate.setCognoms(scanner.nextLine());
+                    jugadorDAO.actualitzarJugador(jugadorUpdate);
+                    System.out.println("✅ Jugador actualitzat amb èxit!");
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap jugador amb aquest ID.");
+                }
+                break;
+
+            case 4:
+                System.out.print("Introdueix l'ID del jugador a eliminar: ");
+                int idDelete = scanner.nextInt();
+                scanner.nextLine();
+                jugadorDAO.eliminarJugador(idDelete);
+                System.out.println("✅ Jugador eliminat amb èxit!");
+                break;
+        }
+    }
+
+    public static void gestionarClassificacio(Scanner scanner, ClassificacioDAO classificacioDAO) {
+        System.out.println("\n===== GESTIONAR CLASSIFICACIÓ =====");
+        System.out.println("1. Crear Classificació");
+        System.out.println("2. Consultar Classificació per ID");
+        System.out.println("3. Actualitzar Classificació per ID");
+        System.out.println("4. Eliminar Classificació per ID");
+        System.out.print("Selecciona una opció: ");
+        int opcio = scanner.nextInt();
+        scanner.nextLine();
+    
+        switch (opcio) {
+            case 1:
+                System.out.print("Introdueix els punts: ");
+                int punts = scanner.nextInt();
+                System.out.print("Introdueix partits jugats: ");
+                int partits = scanner.nextInt();
+                System.out.print("Introdueix victòries: ");
+                int victories = scanner.nextInt();
+                scanner.nextLine();  
+    
+                Classificacio classificacio = new Classificacio();
+                classificacio.setPunts(punts);
+                classificacio.setPartits_jugats(partits);
+                classificacio.setVictories(victories);
+    
+                classificacioDAO.crearClassificacio(classificacio);
+                System.out.println("✅ Classificació creada amb èxit!");
+                break;
+    
+            case 2:
+                System.out.print("Introdueix l'ID de la classificació a consultar: ");
+                Long idConsulta = scanner.nextLong();
+                scanner.nextLine();
+                Classificacio c = classificacioDAO.obtenirClassificacio(idConsulta);
+                if (c != null) {
+                    System.out.println("🏆 Punts: " + c.getPunts() + " | Partits jugats: " + c.getPartits_jugats() + " | Victòries: " + c.getVictories());
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap classificació amb aquest ID.");
+                }
+                break;
+    
+            case 3:
+                System.out.print("Introdueix l'ID de la classificació a actualitzar: ");
+                Long idUpdate = scanner.nextLong();
+                scanner.nextLine();
+                Classificacio classificacioUpdate = classificacioDAO.obtenirClassificacio(idUpdate);
+                if (classificacioUpdate != null) {
+                    System.out.print("Nous punts: ");
+                    classificacioUpdate.setPunts(scanner.nextInt());
+                    System.out.print("Noves partits jugats: ");
+                    classificacioUpdate.setPartits_jugats(scanner.nextInt());
+                    System.out.print("Noves victòries: ");
+                    classificacioUpdate.setVictories(scanner.nextInt());
+                    scanner.nextLine();
+    
+                    classificacioDAO.actualitzarClassificacio(classificacioUpdate);
+                    System.out.println("✅ Classificació actualitzada amb èxit!");
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap classificació amb aquest ID.");
+                }
+                break;
+    
+            case 4:
+                System.out.print("Introdueix l'ID de la classificació a eliminar: ");
+                Long idDelete = scanner.nextLong();
+                scanner.nextLine();
+                classificacioDAO.eliminarClassificacio(idDelete);
+                System.out.println("✅ Classificació eliminada amb èxit!");
+                break;
+        }
+    }
+
+    public static void gestionarEquip(Scanner scanner, EquipDAO equipDAO, LligaDAO lligaDAO) {
+        System.out.println("\n===== GESTIONAR EQUIP =====");
+        System.out.println("1. Crear Equip");
+        System.out.println("2. Consultar Equip per ID");
+        System.out.println("3. Actualitzar Equip per ID");
+        System.out.println("4. Eliminar Equip per ID");
+        System.out.print("Selecciona una opció: ");
+        int opcio = scanner.nextInt();
+        scanner.nextLine();
+    
+        switch (opcio) {
+            case 1:
+                System.out.print("Nom de l'equip: ");
+                String nomEquip = scanner.nextLine();
+                System.out.print("Ciutat de l'equip: ");
+                String ciutat = scanner.nextLine();
+                
+                // ✅ Pedir ID de la Lliga y verificar si existe
+                System.out.print("Introdueix l'ID de la lliga a la qual pertany l'equip: ");
+                int idLliga = scanner.nextInt();
+                scanner.nextLine();
+                
+                Lliga lliga = lligaDAO.obtenirLliga(idLliga);
+                if (lliga == null) {
+                    System.out.println("⚠ No s'ha trobat cap lliga amb aquest ID. No es pot crear l'equip.");
+                    return;
+                }
+                
+                Equip equip = new Equip();
+                equip.setNom_equip(nomEquip);
+                equip.setCiutat(ciutat);
+                equip.setLliga(lliga); // ✅ Asociamos el equipo a la lliga
+                
+                equipDAO.crearEquip(equip);
+                System.out.println("✅ Equip creat amb èxit!");
+                break;
+    
+            case 2:
+                System.out.print("Introdueix l'ID de l'equip a consultar: ");
+                int idConsulta = scanner.nextInt();
+                scanner.nextLine();
+                Equip e = equipDAO.obtenirEquip(idConsulta);
+                if (e != null) {
+                    System.out.println("⚽ " + e.getNom_equip() + " - " + e.getCiutat() + " (Lliga: " + e.getLliga().getNom_lliga() + ")");
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID.");
+                }
+                break;
+    
+            case 3:
+                System.out.print("Introdueix l'ID de l'equip a actualitzar: ");
+                int idUpdate = scanner.nextInt();
+                scanner.nextLine();
+                Equip equipUpdate = equipDAO.obtenirEquip(idUpdate);
+                if (equipUpdate != null) {
+                    System.out.print("Nou nom de l'equip: ");
+                    equipUpdate.setNom_equip(scanner.nextLine());
+                    System.out.print("Nova ciutat de l'equip: ");
+                    equipUpdate.setCiutat(scanner.nextLine());
+    
+                    equipDAO.actualitzarEquip(equipUpdate);
+                    System.out.println("✅ Equip actualitzat amb èxit!");
+                } else {
+                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID.");
+                }
+                break;
+    
+            case 4:
+                System.out.print("Introdueix l'ID de l'equip a eliminar: ");
+                int idDelete = scanner.nextInt();
+                scanner.nextLine();
+                equipDAO.eliminarEquip(idDelete);
+                System.out.println("✅ Equip eliminat amb èxit!");
+                break;
+        }
+    }
+    
+    
+    
 }

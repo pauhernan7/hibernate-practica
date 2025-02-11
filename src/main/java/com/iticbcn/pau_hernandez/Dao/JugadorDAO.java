@@ -16,7 +16,7 @@ public class JugadorDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    // ✅ Método para insertar un jugador
+    // ✅ CREATE - Crear Jugador
     public void crearJugador(Jugador jugador) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -29,14 +29,14 @@ public class JugadorDAO {
         }
     }
 
-    // ✅ Método para obtener un jugador por ID
+    // ✅ READ - Obtener un jugador por ID
     public Jugador obtenirJugador(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Jugador.class, id);
         }
     }
 
-    // ✅ Método para obtener todos los jugadores
+    // ✅ READ - Obtener todos los jugadores
     public List<Jugador> obtenirTotsElsJugadors() {
         try (Session session = sessionFactory.openSession()) {
             Query<Jugador> query = session.createQuery("from Jugador", Jugador.class);
@@ -44,7 +44,7 @@ public class JugadorDAO {
         }
     }
 
-    // ✅ Método para actualizar un jugador
+    // ✅ UPDATE - Modificar un jugador
     public void actualitzarJugador(Jugador jugador) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -57,7 +57,7 @@ public class JugadorDAO {
         }
     }
 
-    // ✅ Método para eliminar un jugador
+    // ✅ DELETE - Eliminar un jugador
     public void eliminarJugador(int id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

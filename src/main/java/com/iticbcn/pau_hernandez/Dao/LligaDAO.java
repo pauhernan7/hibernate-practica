@@ -16,7 +16,7 @@ public class LligaDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    // ✅ Insertar una nova lliga
+    // ✅ CREATE - Crear Lliga
     public void crearLliga(Lliga lliga) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -29,14 +29,14 @@ public class LligaDAO {
         }
     }
 
-    // ✅ Obtenir una lliga per ID
+    // ✅ READ - Obtener una lliga por ID
     public Lliga obtenirLliga(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Lliga.class, id);
         }
     }
 
-    // ✅ Obtenir totes les lligues
+    // ✅ READ - Obtener todas las lligues
     public List<Lliga> obtenirTotesLesLligues() {
         try (Session session = sessionFactory.openSession()) {
             Query<Lliga> query = session.createQuery("from Lliga", Lliga.class);
@@ -44,7 +44,7 @@ public class LligaDAO {
         }
     }
 
-    // ✅ Actualitzar una lliga
+    // ✅ UPDATE - Modificar una lliga
     public void actualitzarLliga(Lliga lliga) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -57,7 +57,7 @@ public class LligaDAO {
         }
     }
 
-    // ✅ Eliminar una lliga per ID
+    // ✅ DELETE - Eliminar una lliga
     public void eliminarLliga(int id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

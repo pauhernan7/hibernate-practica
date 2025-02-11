@@ -16,7 +16,7 @@ public class ClassificacioDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    // ✅ Crear una classificació
+    // ✅ CREATE - Crear Classificació
     public void crearClassificacio(Classificacio classificacio) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -29,14 +29,14 @@ public class ClassificacioDAO {
         }
     }
 
-    // ✅ Obtenir una classificació per ID
+    // ✅ READ - Obtener una classificació por ID
     public Classificacio obtenirClassificacio(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Classificacio.class, id);
         }
     }
 
-    // ✅ Obtenir totes les classificacions
+    // ✅ READ - Obtener todas las classificacions
     public List<Classificacio> obtenirTotesLesClassificacions() {
         try (Session session = sessionFactory.openSession()) {
             Query<Classificacio> query = session.createQuery("from Classificacio", Classificacio.class);
@@ -44,15 +44,7 @@ public class ClassificacioDAO {
         }
     }
 
-    // ✅ Obtenir la mitjana de punts de totes les classificacions (HQL amb `AVG`)
-    public double obtenirMitjanaPunts() {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Double> query = session.createQuery("SELECT AVG(punts) FROM Classificacio", Double.class);
-            return query.uniqueResult();
-        }
-    }
-
-    // ✅ Actualitzar una classificació
+    // ✅ UPDATE - Modificar una classificació
     public void actualitzarClassificacio(Classificacio classificacio) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -65,7 +57,7 @@ public class ClassificacioDAO {
         }
     }
 
-    // ✅ Eliminar una classificació per ID
+    // ✅ DELETE - Eliminar una classificació
     public void eliminarClassificacio(Long id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

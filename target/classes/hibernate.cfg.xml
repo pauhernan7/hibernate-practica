@@ -8,7 +8,7 @@
         <!-- Driver JDBC -->
         <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
         <!-- Conexión. Añadir ?createDatabaseIfNotExist=true para crear la BBDD  -->
-        <property name="connection.url">jdbc:mariadb://localhost:3307/m06uf2</property>
+        <property name="connection.url">jdbc:mariadb://localhost:3307/m06uf2?createDatabaseIfNotExist=true</property>
         <!-- Usuario y password de la BBDD -->
         <property name="connection.username">root</property>
         <property name="connection.password">system</property>
@@ -30,7 +30,7 @@
 
         <!-- Mantenimiento de la BBDD -->
 
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">validate</property>
 
         <!-- opciones de hbm2dll:
         create : Borra y crea SIEMPRE la base de datos
