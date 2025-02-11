@@ -5,7 +5,7 @@
         <id name="id_classificacio" column="id_classificacio">
             <generator class="identity"/>
         </id>
-        <many-to-one name="equip" column="id_equip" class="com.iticbcn.pau_hernandez.Model.Equip"/>
+        <many-to-one name="equip" column="id_equip" class="com.iticbcn.pau_hernandez.Model.Equip" lazy="false"/>
         <property name="punts" column="punts"/>
         <property name="partits_jugats" column="partits_jugats"/>
         <property name="victories" column="victories"/>

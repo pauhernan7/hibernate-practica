@@ -96,4 +96,9 @@ public class EquipDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return "EquipDAO [toString()=" + super.toString() + "]";
+    }
 }
