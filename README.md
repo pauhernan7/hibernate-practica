@@ -68,17 +68,36 @@ El programa ofereix les següents funcionalitats a través d'un menú interactiu
 
 ## Exemples d'execució amb la clase Jugador:
 
+## Menú principal:
 ![](/fotos/menuprin.png)
+
+
+## Creació d'un jugador:
 
 ![](/fotos/creaciojugador.png)
 
+
+## Consulta sobre un jugador:
+
 ![](/fotos/consultar.png)
+
+
+## Modificar un jugador:
 
 ![](/fotos/modificar.png)
 
+
+## Eliminar un jugador:
+
 ![](/fotos/eliminar.png)
 
+
+## Mostrar tot: 
+
 ![](/fotos/mostrartots.png)
+
+
+## Count: 
 
 ![](/fotos/count.png)
 
