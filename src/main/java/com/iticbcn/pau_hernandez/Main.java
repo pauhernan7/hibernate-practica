@@ -55,10 +55,10 @@ public class Main {
                     break;
                 case 5:
                     sortir = true;
-                    System.out.println("👋 Sortint de l'aplicació. Fins aviat!");
+                    System.out.println("Sortint de l'aplicació. Fins aviat!");
                     break;
                 default:
-                    System.out.println("⚠ Opció no vàlida.");
+                    System.out.println("Opció no vàlida.");
             }
         }
 
@@ -66,14 +66,14 @@ public class Main {
         sessionFactory.close();
     }
 
-    // 📌 Submenú per gestionar Lliga
+    // Submenú per gestionar Lliga
     public static void gestionarLliga(Scanner scanner, LligaDAO lligaDAO) {
         System.out.println("\n===== GESTIONAR LLIGA =====");
         System.out.println("1. Crear Lliga");
         System.out.println("2. Consultar Lliga per ID");
         System.out.println("3. Actualitzar Lliga per ID");
         System.out.println("4. Eliminar Lliga per ID");
-        System.out.println("5. Llistar totes les Lligues");  // NUEVA OPCIÓN
+        System.out.println("5. Llistar totes les Lligues");  
         System.out.print("Selecciona una opció: ");
         
         int opcio = scanner.nextInt();
@@ -89,7 +89,7 @@ public class Main {
                 lliga.setNom_lliga(nomLliga);
                 lliga.setTemporada(temporada);
                 lligaDAO.crearLliga(lliga);
-                System.out.println("✅ Lliga creada amb èxit!");
+                System.out.println("Lliga creada amb èxit!");
                 break;
     
             case 2:
@@ -100,7 +100,7 @@ public class Main {
                 if (l != null) {
                     System.out.println("🏆 " + l.getNom_lliga() + " - " + l.getTemporada());
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap lliga amb aquest ID.");
+                    System.out.println("No s'ha trobat cap lliga amb aquest ID.");
                 }
                 break;
     
@@ -115,9 +115,9 @@ public class Main {
                     System.out.print("Nova temporada: ");
                     lligaUpdate.setTemporada(scanner.nextLine());
                     lligaDAO.actualitzarLliga(lligaUpdate);
-                    System.out.println("✅ Lliga actualitzada amb èxit!");
+                    System.out.println("Lliga actualitzada amb èxit!");
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap lliga amb aquest ID.");
+                    System.out.println("No s'ha trobat cap lliga amb aquest ID.");
                 }
                 break;
     
@@ -126,18 +126,18 @@ public class Main {
                 int idDelete = scanner.nextInt();
                 scanner.nextLine();
                 lligaDAO.eliminarLliga(idDelete);
-                System.out.println("✅ Lliga eliminada amb èxit!");
+                System.out.println("Lliga eliminada amb èxit!");
                 break;
     
-            case 5:  // Nueva opción para listar todas las ligas
+            case 5: 
                 System.out.println("\n📜 Llistat de Lligues:");
                 for (Lliga ll : lligaDAO.obtenirTotesLesLligues()) {
-                    System.out.println("🏆 " + ll.getId_lliga() + " - " + ll.getNom_lliga() + " (" + ll.getTemporada() + ")");
+                    System.out.println("Id lliga: " + ll.getId_lliga() + "    Nom Lliga: " + ll.getNom_lliga() + "    Temporada: " + ll.getTemporada());
                 }
                 break;
     
             default:
-                System.out.println("⚠ Opció no vàlida.");
+                System.out.println("Opció no vàlida.");
         }
     }
         
@@ -147,7 +147,7 @@ public class Main {
         System.out.println("2. Consultar Jugador per ID");
         System.out.println("3. Actualitzar Jugador per ID");
         System.out.println("4. Eliminar Jugador per ID");
-        System.out.println("5. Llistar tots els Jugadors");  // NUEVA OPCIÓN
+        System.out.println("5. Llistar tots els Jugadors");  
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
@@ -159,24 +159,23 @@ public class Main {
                 System.out.print("Cognoms: ");
                 String cognoms = scanner.nextLine();
     
-                // ✅ Pedir ID del equip y verificar si existe
                 System.out.print("Introdueix l'ID de l'equip al qual pertany el jugador: ");
                 int idEquip = scanner.nextInt();
                 scanner.nextLine();
     
                 Equip equip = equipDAO.obtenirEquip(idEquip);
                 if (equip == null) {
-                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID. No es pot crear el jugador.");
+                    System.out.println("No s'ha trobat cap equip amb aquest ID. No es pot crear el jugador.");
                     return;
                 }
     
                 Jugador jugador = new Jugador();
                 jugador.setNom(nomJugador);
                 jugador.setCognoms(cognoms);
-                jugador.setEquip(equip); // ✅ Asociamos el jugador al equipo
+                jugador.setEquip(equip); 
     
                 jugadorDAO.crearJugador(jugador, idEquip);
-                System.out.println("✅ Jugador creat amb èxit!");
+                System.out.println("Jugador creat amb èxit!");
                 break;
     
             case 2:
@@ -185,9 +184,9 @@ public class Main {
                 scanner.nextLine();
                 Jugador j = jugadorDAO.obtenirJugador(idConsulta);
                 if (j != null) {
-                    System.out.println("⚽ " + j.getNom() + " " + j.getCognoms());
+                    System.out.println(j.getNom() + " " + j.getCognoms());
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap jugador amb aquest ID.");
+                    System.out.println("No s'ha trobat cap jugador amb aquest ID.");
                 }
                 break;
     
@@ -202,9 +201,9 @@ public class Main {
                     System.out.print("Noves cognoms del jugador: ");
                     jugadorUpdate.setCognoms(scanner.nextLine());
                     jugadorDAO.actualitzarJugador(jugadorUpdate);
-                    System.out.println("✅ Jugador actualitzat amb èxit!");
+                    System.out.println("Jugador actualitzat amb èxit!");
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap jugador amb aquest ID.");
+                    System.out.println("No s'ha trobat cap jugador amb aquest ID.");
                 }
                 break;
     
@@ -213,18 +212,18 @@ public class Main {
                 int idDelete = scanner.nextInt();
                 scanner.nextLine();
                 jugadorDAO.eliminarJugador(idDelete);
-                System.out.println("✅ Jugador eliminat amb èxit!");
+                System.out.println("Jugador eliminat amb èxit!");
                 break;
             
-            case 5:  // Nueva opción para listar todas las ligas
-                System.out.println("\n📜 Llistat de Jugadors:");
+            case 5: 
+                System.out.println("\nLlistat de Jugadors:");
                 for (Jugador juga : jugadorDAO.obtenirTotsElsJugadors()) {
-                    System.out.println("🏆 " + juga.getIdJugador() + " - " + juga.getNom() + " (" + juga.getCognoms() + ")" + " (" + juga.getEquip().getNom_equip() + ")");
+                    System.out.println("Id jugador: " + juga.getIdJugador() + "    Nom: " + juga.getNom() + "    Cognoms: " + juga.getCognoms() + "    Nom Equip: " + juga.getEquip().getNom_equip());
                 }
                 break;
     
             default:
-                System.out.println("⚠ Opció no vàlida.");
+                System.out.println("Opció no vàlida.");
                 
         }
     }
@@ -237,7 +236,7 @@ public class Main {
         System.out.println("2. Consultar Classificació per ID");
         System.out.println("3. Actualitzar Classificació per ID");
         System.out.println("4. Eliminar Classificació per ID");
-        System.out.println("5. Llistar totes les Classificacions");  // NUEVA OPCIÓN
+        System.out.println("5. Llistar totes les Classificacions");  
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
@@ -252,26 +251,24 @@ public class Main {
                 int victories = scanner.nextInt();
                 scanner.nextLine();
     
-                // ✅ Pedir ID del equip y verificar si existe
                 System.out.print("Introdueix l'ID de l'equip per associar la classificació: ");
                 int idEquip = scanner.nextInt();
                 scanner.nextLine();
     
                 Equip equip = equipDAO.obtenirEquip(idEquip);
                 if (equip == null) {
-                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID. No es pot crear la classificació.");
-                    return; // Si el equipo no existe, no se puede crear la clasificación
+                    System.out.println("No s'ha trobat cap equip amb aquest ID. No es pot crear la classificació.");
+                    return; 
                 }
     
-                // Crear la clasificación solo si el equipo existe
                 Classificacio classificacio = new Classificacio();
                 classificacio.setPunts(punts);
                 classificacio.setPartits_jugats(partits);
                 classificacio.setVictories(victories);
-                classificacio.setEquip(equip); // Asociar la clasificación al equipo
-    
+                classificacio.setEquip(equip); 
+
                 classificacioDAO.crearClassificacio(classificacio);
-                System.out.println("✅ Classificació creada amb èxit!");
+                System.out.println("Classificació creada amb èxit!");
                 break;
     
             case 2:
@@ -280,9 +277,9 @@ public class Main {
                 scanner.nextLine();
                 Classificacio c = classificacioDAO.obtenirClassificacio(idConsulta);
                 if (c != null) {
-                    System.out.println("🏆 Punts: " + c.getPunts() + " | Partits jugats: " + c.getPartits_jugats() + " | Victòries: " + c.getVictories());
+                    System.out.println("Punts: " + c.getPunts() + " | Partits jugats: " + c.getPartits_jugats() + " | Victòries: " + c.getVictories());
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap classificació amb aquest ID.");
+                    System.out.println("No s'ha trobat cap classificació amb aquest ID.");
                 }
                 break;
     
@@ -301,9 +298,9 @@ public class Main {
                     scanner.nextLine();
     
                     classificacioDAO.actualitzarClassificacio(classificacioUpdate);
-                    System.out.println("✅ Classificació actualitzada amb èxit!");
+                    System.out.println("Classificació actualitzada amb èxit!");
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap classificació amb aquest ID.");
+                    System.out.println("No s'ha trobat cap classificació amb aquest ID.");
                 }
                 break;
     
@@ -312,18 +309,18 @@ public class Main {
                 Long idDelete = scanner.nextLong();
                 scanner.nextLine();
                 classificacioDAO.eliminarClassificacio(idDelete);
-                System.out.println("✅ Classificació eliminada amb èxit!");
+                System.out.println("Classificació eliminada amb èxit!");
                 break;
 
             case 5:
-            System.out.println("\n📜 Llistat de Classificacions:");
+            System.out.println("\nLlistat de Classificacions:");
             for (Classificacio clas : classificacioDAO.obtenirTotesLesClassificacions()) {
-                System.out.println("⚽ " + clas.getId_classificacio() + " - " + clas.getEquip().getNom_equip() + " (" + clas.getPunts() + ")" + " (" + clas.getPartits_jugats() + ")"+ " (" + clas.getVictories() + ")");
+                System.out.println("Id classificacio: " + clas.getId_classificacio() + "    Nom Equip: " + clas.getEquip().getNom_equip() + "    Punts: " + clas.getPunts() + "    Partits jugats: " + clas.getPartits_jugats() + "    Victories: " + clas.getVictories() + ")");
             }
             break;
 
             default:
-            System.out.println("⚠ Opció no vàlida.");
+            System.out.println("Opció no vàlida.");
             
         }
     }
@@ -336,7 +333,7 @@ public class Main {
         System.out.println("2. Consultar Equip per ID");
         System.out.println("3. Actualitzar Equip per ID");
         System.out.println("4. Eliminar Equip per ID");
-        System.out.println("5. Llistar totes les Classificacions");  
+        System.out.println("5. Llistar tots els Equips");  
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
@@ -348,24 +345,23 @@ public class Main {
                 System.out.print("Ciutat de l'equip: ");
                 String ciutat = scanner.nextLine();
                 
-                // ✅ Pedir ID de la Lliga y verificar si existe
                 System.out.print("Introdueix l'ID de la lliga a la qual pertany l'equip: ");
                 int idLliga = scanner.nextInt();
                 scanner.nextLine();
                 
                 Lliga lliga = lligaDAO.obtenirLliga(idLliga);
                 if (lliga == null) {
-                    System.out.println("⚠ No s'ha trobat cap lliga amb aquest ID. No es pot crear l'equip.");
+                    System.out.println("No s'ha trobat cap lliga amb aquest ID. No es pot crear l'equip.");
                     return;
                 }
                 
                 Equip equip = new Equip();
                 equip.setNom_equip(nomEquip);
                 equip.setCiutat(ciutat);
-                equip.setLliga(lliga); // ✅ Asociamos el equipo a la lliga
+                equip.setLliga(lliga); 
                 
                 equipDAO.crearEquip(equip, idLliga);
-                System.out.println("✅ Equip creat amb èxit!");
+                System.out.println("Equip creat amb èxit!");
                 break;
     
             case 2:
@@ -374,9 +370,9 @@ public class Main {
                 scanner.nextLine();
                 Equip e = equipDAO.obtenirEquip(idConsulta);
                 if (e != null) {
-                    System.out.println("⚽ " + e.getNom_equip() + " - " + e.getCiutat() + " (Lliga: " + e.getLliga().getNom_lliga() + ")");
+                    System.out.println(e.getNom_equip() + " - " + e.getCiutat() + " (Lliga: " + e.getLliga().getNom_lliga() + ")");
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID.");
+                    System.out.println("No s'ha trobat cap equip amb aquest ID.");
                 }
                 break;
     
@@ -392,9 +388,9 @@ public class Main {
                     equipUpdate.setCiutat(scanner.nextLine());
     
                     equipDAO.actualitzarEquip(equipUpdate);
-                    System.out.println("✅ Equip actualitzat amb èxit!");
+                    System.out.println("Equip actualitzat amb èxit!");
                 } else {
-                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID.");
+                    System.out.println("No s'ha trobat cap equip amb aquest ID.");
                 }
                 break;
     
@@ -403,19 +399,16 @@ public class Main {
                 int idDelete = scanner.nextInt();
                 scanner.nextLine();
                 equipDAO.eliminarEquip(idDelete);
-                System.out.println("✅ Equip eliminat amb èxit!");
+                System.out.println("Equip eliminat amb èxit!");
                 break;
             
             case 5:
-            System.out.println("\n📜 Llistat d'Equips:");
+            System.out.println("\nLlistat d'Equips:");
             for (Equip equipo : equipDAO.obtenirTotsElsEquips()) {
-                System.out.println("⚽ " + equipo.getId_equip() + " - " + equipo.getNom_equip() + " (" + equipo.getCiutat() + ")");
+                System.out.println("Id equip: " + equipo.getId_equip() + "    Nom Equip: " + equipo.getNom_equip() + "    Ciutat: " + equipo.getCiutat());
             }
             break;
             
         }
-    }
-    
-    
-    
+    }   
 }
