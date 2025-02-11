@@ -191,7 +191,7 @@ public class Main {
                 scanner.nextLine();
                 Jugador j = jugadorDAO.obtenirJugador(idConsulta);
                 if (j != null) {
-                    System.out.println(j.getNom() + " " + j.getCognoms());
+                    System.out.println("Nom Jugador: " + j.getNom() + "    Cognoms: " + j.getCognoms());
                 } else {
                     System.out.println("No s'ha trobat cap jugador amb aquest ID.");
                 }
@@ -205,7 +205,7 @@ public class Main {
                 if (jugadorUpdate != null) {
                     System.out.print("Nou nom del jugador: ");
                     jugadorUpdate.setNom(scanner.nextLine());
-                    System.out.print("Noves cognoms del jugador: ");
+                    System.out.print("Nous cognoms del jugador: ");
                     jugadorUpdate.setCognoms(scanner.nextLine());
                     jugadorDAO.actualitzarJugador(jugadorUpdate);
                     System.out.println("Jugador actualitzat amb èxit!");
