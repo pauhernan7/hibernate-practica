@@ -7,10 +7,8 @@ public class Classificacio {
     private int partits_jugats;
     private int victories;
 
-    // Constructor vacío (requerido por Hibernate)
     public Classificacio() {}
 
-    // Getters y Setters
     public Long getId_classificacio() {
         return id_classificacio;
     }
