@@ -72,4 +72,13 @@ public class LligaDAO {
             e.printStackTrace();
         }
     }
+
+    // Validar si una liga ya existe antes de crearla
+    public boolean existeLliga(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Lliga lliga = session.get(Lliga.class, id);
+            return lliga != null;
+        }
+    }
+
 }

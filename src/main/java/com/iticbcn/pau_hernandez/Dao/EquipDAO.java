@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.iticbcn.pau_hernandez.Model.Equip;
+import com.iticbcn.pau_hernandez.Model.Lliga;
 
 public class EquipDAO {
     private SessionFactory sessionFactory;
@@ -16,8 +17,7 @@ public class EquipDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    // ✅ CREATE - Crear Equip
-    public void crearEquip(Equip equip) {
+    public void crearEquip(Equip equip, int idLliga) {
     Transaction transaction = null;
     Session session = null;
 
@@ -25,7 +25,14 @@ public class EquipDAO {
         session = sessionFactory.openSession();
         transaction = session.beginTransaction();
 
-        session.persist(equip);
+        // Verificar si la liga existe
+        Lliga lliga = session.get(Lliga.class, idLliga);
+        if (lliga == null) {
+            throw new Exception("La liga con ID " + idLliga + " no existe.");
+        }
+        
+        equip.setLliga(lliga); // Asocia el equipo con la liga
+        session.persist(equip); // Guarda el equipo en la base de datos
 
         transaction.commit();
         System.out.println("✅ Equip creat correctament!");
@@ -41,6 +48,7 @@ public class EquipDAO {
         }
     }
 }
+
 
     
     

@@ -45,10 +45,10 @@ public class Main {
                     gestionarLliga(scanner, lligaDAO);
                     break;
                 case 2:
-                    gestionarJugador(scanner, jugadorDAO);
+                    gestionarJugador(scanner, jugadorDAO, equipDAO);
                     break;
                 case 3:
-                    gestionarClassificacio(scanner, classificacioDAO);
+                    gestionarClassificacio(scanner, classificacioDAO, equipDAO);
                     break;
                 case 4:
                     gestionarEquip(scanner, equipDAO, lligaDAO);
@@ -128,9 +128,8 @@ public class Main {
                 break;
         }
     }
-
-    // 📌 Submenú per gestionar Jugador
-    public static void gestionarJugador(Scanner scanner, JugadorDAO jugadorDAO) {
+    
+    public static void gestionarJugador(Scanner scanner, JugadorDAO jugadorDAO, EquipDAO equipDAO) {
         System.out.println("\n===== GESTIONAR JUGADOR =====");
         System.out.println("1. Crear Jugador");
         System.out.println("2. Consultar Jugador per ID");
@@ -139,20 +138,34 @@ public class Main {
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
-
+    
         switch (opcio) {
             case 1:
                 System.out.print("Nom del jugador: ");
                 String nomJugador = scanner.nextLine();
                 System.out.print("Cognoms: ");
                 String cognoms = scanner.nextLine();
+    
+                // ✅ Pedir ID del equip y verificar si existe
+                System.out.print("Introdueix l'ID de l'equip al qual pertany el jugador: ");
+                int idEquip = scanner.nextInt();
+                scanner.nextLine();
+    
+                Equip equip = equipDAO.obtenirEquip(idEquip);
+                if (equip == null) {
+                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID. No es pot crear el jugador.");
+                    return;
+                }
+    
                 Jugador jugador = new Jugador();
                 jugador.setNom(nomJugador);
                 jugador.setCognoms(cognoms);
-                jugadorDAO.crearJugador(jugador);
+                jugador.setEquip(equip); // ✅ Asociamos el jugador al equipo
+    
+                jugadorDAO.crearJugador(jugador, idEquip);
                 System.out.println("✅ Jugador creat amb èxit!");
                 break;
-
+    
             case 2:
                 System.out.print("Introdueix l'ID del jugador a consultar: ");
                 int idConsulta = scanner.nextInt();
@@ -164,7 +177,7 @@ public class Main {
                     System.out.println("⚠ No s'ha trobat cap jugador amb aquest ID.");
                 }
                 break;
-
+    
             case 3:
                 System.out.print("Introdueix l'ID del jugador a actualitzar: ");
                 int idUpdate = scanner.nextInt();
@@ -181,7 +194,7 @@ public class Main {
                     System.out.println("⚠ No s'ha trobat cap jugador amb aquest ID.");
                 }
                 break;
-
+    
             case 4:
                 System.out.print("Introdueix l'ID del jugador a eliminar: ");
                 int idDelete = scanner.nextInt();
@@ -191,8 +204,10 @@ public class Main {
                 break;
         }
     }
+    
+    
 
-    public static void gestionarClassificacio(Scanner scanner, ClassificacioDAO classificacioDAO) {
+    public static void gestionarClassificacio(Scanner scanner, ClassificacioDAO classificacioDAO, EquipDAO equipDAO) {
         System.out.println("\n===== GESTIONAR CLASSIFICACIÓ =====");
         System.out.println("1. Crear Classificació");
         System.out.println("2. Consultar Classificació per ID");
@@ -210,12 +225,25 @@ public class Main {
                 int partits = scanner.nextInt();
                 System.out.print("Introdueix victòries: ");
                 int victories = scanner.nextInt();
-                scanner.nextLine();  
+                scanner.nextLine();
     
+                // ✅ Pedir ID del equip y verificar si existe
+                System.out.print("Introdueix l'ID de l'equip per associar la classificació: ");
+                int idEquip = scanner.nextInt();
+                scanner.nextLine();
+    
+                Equip equip = equipDAO.obtenirEquip(idEquip);
+                if (equip == null) {
+                    System.out.println("⚠ No s'ha trobat cap equip amb aquest ID. No es pot crear la classificació.");
+                    return; // Si el equipo no existe, no se puede crear la clasificación
+                }
+    
+                // Crear la clasificación solo si el equipo existe
                 Classificacio classificacio = new Classificacio();
                 classificacio.setPunts(punts);
                 classificacio.setPartits_jugats(partits);
                 classificacio.setVictories(victories);
+                classificacio.setEquip(equip); // Asociar la clasificación al equipo
     
                 classificacioDAO.crearClassificacio(classificacio);
                 System.out.println("✅ Classificació creada amb èxit!");
@@ -263,6 +291,8 @@ public class Main {
                 break;
         }
     }
+    
+    
 
     public static void gestionarEquip(Scanner scanner, EquipDAO equipDAO, LligaDAO lligaDAO) {
         System.out.println("\n===== GESTIONAR EQUIP =====");
@@ -297,7 +327,7 @@ public class Main {
                 equip.setCiutat(ciutat);
                 equip.setLliga(lliga); // ✅ Asociamos el equipo a la lliga
                 
-                equipDAO.crearEquip(equip);
+                equipDAO.crearEquip(equip, idLliga);
                 System.out.println("✅ Equip creat amb èxit!");
                 break;
     
