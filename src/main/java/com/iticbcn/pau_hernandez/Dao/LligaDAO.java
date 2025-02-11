@@ -81,4 +81,10 @@ public class LligaDAO {
         }
     }
 
+    public long contarLligues() {
+        return sessionFactory.openSession()
+                .createQuery("SELECT COUNT(l) FROM Lliga l", Long.class)
+                .getSingleResult();
+    }
+
 }

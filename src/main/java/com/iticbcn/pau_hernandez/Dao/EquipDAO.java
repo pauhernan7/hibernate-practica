@@ -101,4 +101,10 @@ public class EquipDAO {
     public String toString() {
         return "EquipDAO [toString()=" + super.toString() + "]";
     }
+
+    public long contarEquips() {
+        return sessionFactory.openSession()
+                .createQuery("SELECT COUNT(e) FROM Equip e", Long.class)
+                .getSingleResult();
+    }
 }

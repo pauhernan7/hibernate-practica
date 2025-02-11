@@ -74,6 +74,7 @@ public class Main {
         System.out.println("3. Actualitzar Lliga per ID");
         System.out.println("4. Eliminar Lliga per ID");
         System.out.println("5. Llistar totes les Lligues");  
+        System.out.println("6. Count de totes les Lligues");  
         System.out.print("Selecciona una opció: ");
         
         int opcio = scanner.nextInt();
@@ -130,12 +131,17 @@ public class Main {
                 break;
     
             case 5: 
-                System.out.println("\n📜 Llistat de Lligues:");
+                System.out.println("\nLlistat de Lligues:");
                 for (Lliga ll : lligaDAO.obtenirTotesLesLligues()) {
                     System.out.println("Id lliga: " + ll.getId_lliga() + "    Nom Lliga: " + ll.getNom_lliga() + "    Temporada: " + ll.getTemporada());
                 }
                 break;
     
+            case 6:
+                long countLligues = lligaDAO.contarLligues();
+                System.out.println("Número total de lligues: " + countLligues);
+                break;
+
             default:
                 System.out.println("Opció no vàlida.");
         }
@@ -148,6 +154,7 @@ public class Main {
         System.out.println("3. Actualitzar Jugador per ID");
         System.out.println("4. Eliminar Jugador per ID");
         System.out.println("5. Llistar tots els Jugadors");  
+        System.out.println("6. Count de tots els Jugadors");  
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
@@ -221,7 +228,11 @@ public class Main {
                     System.out.println("Id jugador: " + juga.getIdJugador() + "    Nom: " + juga.getNom() + "    Cognoms: " + juga.getCognoms() + "    Nom Equip: " + juga.getEquip().getNom_equip());
                 }
                 break;
-    
+
+            case 6:
+                long countJugadors = jugadorDAO.contarJugadors();
+                System.out.println("Número total de jugadors: " + countJugadors);
+                break;
             default:
                 System.out.println("Opció no vàlida.");
                 
@@ -236,7 +247,8 @@ public class Main {
         System.out.println("2. Consultar Classificació per ID");
         System.out.println("3. Actualitzar Classificació per ID");
         System.out.println("4. Eliminar Classificació per ID");
-        System.out.println("5. Llistar totes les Classificacions");  
+        System.out.println("5. Llistar totes les Classificacions"); 
+        System.out.println("6. Count de totes les Classificacions");   
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
@@ -319,6 +331,11 @@ public class Main {
             }
             break;
 
+            case 6:
+            long countEquips = equipDAO.contarEquips();
+            System.out.println("Número total de classificacions: " + countEquips);
+            break;
+
             default:
             System.out.println("Opció no vàlida.");
             
@@ -334,6 +351,7 @@ public class Main {
         System.out.println("3. Actualitzar Equip per ID");
         System.out.println("4. Eliminar Equip per ID");
         System.out.println("5. Llistar tots els Equips");  
+        System.out.println("6. Count de tots els Equips");  
         System.out.print("Selecciona una opció: ");
         int opcio = scanner.nextInt();
         scanner.nextLine();
@@ -408,6 +426,15 @@ public class Main {
                 System.out.println("Id equip: " + equipo.getId_equip() + "    Nom Equip: " + equipo.getNom_equip() + "    Ciutat: " + equipo.getCiutat());
             }
             break;
+
+            case 6:
+            long countEquips = equipDAO.contarEquips();
+            System.out.println("Número total d'equips: " + countEquips);
+            break;
+
+            default:
+            System.out.println("Opció no vàlida.");
+
             
         }
     }   

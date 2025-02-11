@@ -93,4 +93,10 @@ public class JugadorDAO {
             e.printStackTrace();
         }
     }
+
+    public long contarJugadors() {
+        return sessionFactory.openSession()
+                .createQuery("SELECT COUNT(j) FROM Jugador j", Long.class)
+                .getSingleResult();
+    }
 }

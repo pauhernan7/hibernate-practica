@@ -72,4 +72,10 @@ public class ClassificacioDAO {
             e.printStackTrace();
         }
     }
+
+    public long contarClassificacions() {
+        return sessionFactory.openSession()
+                .createQuery("SELECT COUNT(c) FROM Classificacio c", Long.class)
+                .getSingleResult();
+    }
 }
